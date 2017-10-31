@@ -2,6 +2,7 @@ package dev.paie.entite;
 
 import java.math.BigDecimal;
 
+
 public class Avantage {
 
 	private Integer id;

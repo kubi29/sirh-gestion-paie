@@ -47,7 +47,7 @@
 
 	<bean id="entreprise1" class="dev.paie.entite.Entreprise">
 		<property name="siret" value="80966785000022"></property>
-		<property name="denomination" value="Dev Entreprise"></property>
+		<property name="denomination" value="Entreprise"></property>
 		<property name="codeNaf" value="6202A"></property>
 	</bean>
 
