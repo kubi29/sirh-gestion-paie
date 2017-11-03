@@ -13,9 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+import dev.paie.config.DataSourceMySQLConfig;
 import dev.paie.entite.Grade;
-import dev.paie.spring.DataSourceMySQLConfig;
 
 @ContextConfiguration(classes = { DataSourceMySQLConfig.class})
 //Configuration JUnit pour que Spring prenne la main sur le cycle de vie du test
@@ -29,7 +28,7 @@ public class GradeServiceJdbcTemplateTest {
 	@Test
 	public void test_sauvegarder_lister_mettre_a_jour() {
 	// TODO sauvegarder un nouveau grade
-	//	gradeService.sauvegarder(new Grade (1 , "M01" , new BigDecimal(25) ,new BigDecimal(11) ));
+		gradeService.sauvegarder(new Grade (1 , "M01" , new BigDecimal(25) ,new BigDecimal(11) ));
 	// TODO vérifier qu'il est possible de récupérer le nouveau grade via la méthode lister
 		assertThat(gradeService.lister());
 	// TODO modifier un grade
