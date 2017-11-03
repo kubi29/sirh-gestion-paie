@@ -9,6 +9,15 @@ public class Grade {
 	private BigDecimal nbHeuresBase;
 	private BigDecimal tauxBase;
 	
+	public Grade(int id, String code, BigDecimal nbHeuresBase, BigDecimal tauxBase) {
+		setId(id);
+		setCode(code);
+		setNbHeuresBase(nbHeuresBase);
+		setTauxBase(tauxBase);
+	}
+	public Grade() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getCode() {
 		return code;
 	}
