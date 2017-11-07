@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Cotisation {
@@ -14,15 +16,22 @@ public class Cotisation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	@Column(name="CODE",length = 10 ,nullable =false )
+	@Column(name="CODE",length = 10  )
 	private String code;
-	@Column(name="LIBELLE",length = 30 ,nullable =false )
+	@Column(name="LIBELLE",length = 250  )
 	private String libelle;
-	@Column(name="TAUX_SALARIAL",nullable =false )
+	@Column(name="TAUX_SALARIAL" )
 	private BigDecimal tauxSalarial;
-	@Column(name="TAUX_PATRONAL",nullable =false )
+	@Column(name="TAUX_PATRONAL" )
 	private BigDecimal tauxPatronal;
 	
+	@ManyToOne
+	@JoinColumn(name = "ID_PROFIL_COTI")
+	private ProfilRemuneration profil;
+	
+	public Cotisation(){
+		
+	}
 	
 	public Cotisation(String code, String libelle, BigDecimal tauxSalarial, BigDecimal tauxPatronal) {
 		
