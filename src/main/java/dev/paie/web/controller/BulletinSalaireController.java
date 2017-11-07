@@ -5,15 +5,20 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dev.paie.entite.BulletinSalaire;
+import dev.paie.entite.ResultatCalculRemuneration;
 import dev.paie.repository.BulletinSalaireRepository;
 import dev.paie.repository.PeriodeRepository;
 import dev.paie.repository.RemunerationEmployeRepository;
+import dev.paie.service.CalculerRemunerationService;
+import dev.paie.service.CalculerRemunerationServiceSimple;
 
 @Controller
 @RequestMapping("/bulletins")
@@ -28,6 +33,9 @@ public class BulletinSalaireController {
 	@Autowired
 	private BulletinSalaireRepository bulletins;
 
+	@Autowired
+	private CalculerRemunerationServiceSimple remuneration;
+	
 	@RequestMapping(method = RequestMethod.GET, path = "/creer")
 	public ModelAndView creerBulletin() {
 		ModelAndView mv = new ModelAndView();
@@ -69,6 +77,22 @@ public class BulletinSalaireController {
 		mv.addObject("bulletins", bulletins.findAll());
 
 		return mv;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, path = "/visualiser/{id}")
+	public String visualiserBulletin(
+			@PathVariable Integer id, 
+			Model m){
+		
+		BulletinSalaire bulletin = bulletins.findOne(id);
+
+		ResultatCalculRemuneration resultat = remuneration.calculer(bulletin);
+
+		m.addAttribute("bulletin", bulletin);
+		m.addAttribute("remuneration", resultat );
+		
+
+		return "bulletins/visualiserbulletin" ;
 	}
 
 }
