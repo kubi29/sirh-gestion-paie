@@ -1,6 +1,12 @@
 target
+
 .classpath
+
 .settings
+
 .project
+
 .springBeans
 /bin/
+
+src/main/webapp/bootstrap-3.3.7

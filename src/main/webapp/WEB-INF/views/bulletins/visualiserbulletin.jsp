@@ -51,7 +51,7 @@
 							<td class="grey">Salaire de base</td>
 							<td>${bulletin.remunerationEmploye.grade.nbHeuresBase}</td>
 							<td>${bulletin.remunerationEmploye.grade.tauxBase}</td>
-							<td>${remuneration.salaireDeBase}</td>
+							<td>${remuneration.salaireDeBase }</td>
 							<td></td>
 							<td></td>
 						</tr>
@@ -94,27 +94,31 @@
 						</tr>
 					</thead>
 					<tbody>
-						
+						<c:forEach  items="${cotisationsN}" var="cotisation">
 							<tr>
-								<<td>EP01 URSSAF Maladie</td>
-								<td>2683.30</td>
-								<td>xxxx</td>
-								<td>xxxx</td>
-								<td>xxxx</td>
-								<td>xxxx</td>
+								<td>${cotisation.code} ${cotisation.libelle}</td>
+								<td>${remuneration.salaireBrut}</td>
+								<td>${cotisation.tauxSalarial }</td>
+								<td><c:if test="${cotisation.tauxSalarial != null}">
+										${remuneration.salaireBrut * cotisation.tauxSalarial}
+								</c:if></td>
+								<td>${cotisation.tauxPatronal}</td>
+								<td><c:if test="${cotisation.tauxPatronal != null}">
+									${remuneration.salaireBrut * cotisation.tauxPatronal}
+								</c:if></td>
 							</tr>
-						
+						</c:forEach>
 						<tr>
 							<td class="grey">Total Retenue</td>
 							<td></td>
 							<td></td>
-							<td>xxxx</td>
+							<td>${remuneration.totalRetenueSalarial}</td>
 							<td></td>
-							<td>xxxx</td>
+							<td>${remuneration.totalCotisationsPatronales}</td>
 						</tr>
 					</tbody>
 				</table>
-				<h3>NET Imposable : xxxxxx</h3>
+				<h3>NET Imposable : ${remuneration.netImposable }</h3>
 				<table class="table table-bordered table-hover">
 					<thead>
 						<tr class="grey">
@@ -127,20 +131,24 @@
 						</tr>
 					</thead>
 					<tbody>
-					
+					<c:forEach  items="${cotisations}" var="cotisation">
 							<tr>
-								<td>SP01 URSSAF CSG NOM DEDUCTIBLE</td>
-								<td>2683.30</td>
-								<td>xxxx</td>
-								<td>xxxx</td>
-								<td></td>
-								<td></td>
+								<td>${cotisation.code} ${cotisation.libelle}</td>
+								<td>${remuneration.salaireBrut}</td>
+								<td>${cotisation.tauxSalarial }</td>
+								<td><c:if test="${cotisation.tauxSalarial != null}">
+										${remuneration.salaireBrut * cotisation.tauxSalarial}
+								</c:if></td>
+								<td>${cotisation.tauxPatronal}</td>
+								<td><c:if test="${cotisation.tauxPatronal != null}">
+									${remuneration.salaireBrut * cotisation.tauxPatronal}
+								</c:if></td>
 							</tr>
-						
+						</c:forEach>
 					</tbody>
 				</table>
 				<div class="col-3 offset-9" style="text-align: right;">
-					<label>NET A PAYER : XXXXX €</label>
+					<label>NET A PAYER : ${remuneration.netAPayer} €</label>
 				</div>
 			</div>
 		</div>

@@ -34,15 +34,17 @@ public class CalculerRemunerationServiceSimple implements CalculerRemunerationSe
 				bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsNonImposables()
 				.stream().filter(taux -> taux.getTauxSalarial() != null)
 				.map(taux -> taux.getTauxSalarial().multiply(new BigDecimal(resultat.getSalaireBrut())))
-				.reduce(BigDecimal.ZERO ,BigDecimal::add)
+				.collect(Collectors.reducing(BigDecimal::add))
+				.orElse(BigDecimal.ZERO)	
 				));
 		
 		resultat.setTotalCotisationsPatronales(paieUtils.formaterBigDecimal(
 				bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsNonImposables()
 				.stream().filter(taux -> taux.getTauxPatronal() != null)
 				.map(taux -> taux.getTauxPatronal().multiply(new BigDecimal(resultat.getSalaireBrut())))
-				.reduce(BigDecimal.ZERO ,BigDecimal::add)
-				));
+				.collect(Collectors.reducing(BigDecimal::add))
+				.orElse(BigDecimal.ZERO))
+				);
 		
 		resultat.setNetImposable(paieUtils.formaterBigDecimal(new BigDecimal(resultat.getSalaireBrut())
 				.subtract(new BigDecimal(resultat.getTotalRetenueSalarial()))));
@@ -52,8 +54,8 @@ public class CalculerRemunerationServiceSimple implements CalculerRemunerationSe
 						bulletin.getRemunerationEmploye().getProfilRemuneration().getCotisationsImposables()
 						.stream().filter(taux -> taux.getTauxSalarial() != null)
 						.map(taux -> taux.getTauxSalarial().multiply(new BigDecimal(resultat.getSalaireBrut())))
-						.reduce(BigDecimal.ZERO ,BigDecimal::add)
-						)
+						.collect(Collectors.reducing(BigDecimal::add))
+						.orElse(BigDecimal.ZERO))
 				));
 						
 					

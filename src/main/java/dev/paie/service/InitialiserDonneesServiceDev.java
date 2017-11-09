@@ -10,20 +10,26 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import static java.time.temporal.TemporalAdjusters.*;
+
+import dev.paie.config.ServicesConfig;
 import dev.paie.entite.Cotisation;
 import dev.paie.entite.Entreprise;
 import dev.paie.entite.Grade;
 import dev.paie.entite.Periode;
 import dev.paie.entite.ProfilRemuneration;
 import dev.paie.entite.RemunerationEmploye;
+import dev.paie.entite.Utilisateur;
+import dev.paie.entite.Utilisateur.ROLES;
 import dev.paie.repository.GradeRepository;
-
+@Import(ServicesConfig.class)
 @Service
 @EnableTransactionManagement
 public class InitialiserDonneesServiceDev implements InitialiserDonneesService {
@@ -31,12 +37,11 @@ public class InitialiserDonneesServiceDev implements InitialiserDonneesService {
 	@Autowired
 	private EntityManager em;
 
-	
-
 	@Autowired
 	GradeRepository grades;
 
-
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Transactional
 	@Override
@@ -73,6 +78,16 @@ public class InitialiserDonneesServiceDev implements InitialiserDonneesService {
 
 		employes.stream().forEach(employe -> em.persist(employe));
 
+		List<Utilisateur> utilisateurs = new ArrayList<>();
+		
+		utilisateurs.add(new Utilisateur( "kubi", passwordEncoder.encode("bzh")  ,  true,  Utilisateur.ROLES.ROLE_ADMINISTRATEUR));
+		utilisateurs.add(new Utilisateur( "one",  passwordEncoder.encode("piece") ,  true,  Utilisateur.ROLES.ROLE_ADMINISTRATEUR));
+		utilisateurs.add(new Utilisateur( "toto", passwordEncoder.encode("111") ,  true,  Utilisateur.ROLES.ROLE_UTILISATEUR));
+		utilisateurs.add(new Utilisateur( "zoro", passwordEncoder.encode("333") ,  true,  Utilisateur.ROLES.ROLE_UTILISATEUR));
+		
+		utilisateurs.stream().forEach(utilisateur -> em.persist(utilisateur));
+		
+		
 		context.close();
 
 	}
